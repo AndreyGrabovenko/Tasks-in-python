@@ -4,20 +4,20 @@ from tkinter import messagebox
 from copy import deepcopy
 import time
 
-W, H = 16, 35
-TILE = 20
+W, H = 13, 28
+TILE = 25
 GAME_RES = W * TILE, H * TILE
 RES = 590, 740
 FPS = 60
 fig = []
 fig2 = []
 V = 3000
+
 def on_closing():
     global app_running
     if messagebox.askokcancel("Выход из приложения", "Хотите выйти из приложения?"):
         app_running = False
         tk.destroy()
-
 
 tk = Tk()
 app_running = True
@@ -71,66 +71,67 @@ figures_pos = [[(-1, 0), (-2, 0), (0, 0), (1, 0)],
                [(0, 0), (0, -1), (0, 1), (-1, 0)]]
 
 figures_pos1 = [[(-1, 0), (-2, 0), (0, 0), (1, 0), (2, 0)],
-               [(-1, 0), (-2, 0), (0, 0), (1, 0), (2, 0)],
-               [(-1, 0), (-2, 0), (0, 0), (1, 0), (2, 0)],
-               [(0, -1), (-1, -1), (-1, 0), (0, 0), (0, 1)],
-               [(0, -1), (-1, -1), (-1, 0), (0, 0), (-1, 1)],
-               [(-1, 0), (-1, 1), (0, 0), (0, -1), (-2, 1)],
-               [(0, 0), (0, -1), (0, 1), (-1, -1), (0, 2)],
-               [(0, 0), (0, -1), (0, 1), (1, -1), (0, 2)],
-               [(0, 0), (0, -1), (0, 1), (1, -1), (0, -2)],
-               [(0, 0), (0, -1), (0, 1), (-1, 0), (1, 1)],
-               [(0, 0), (0, -1), (1, -1), (0, 1), (1, 1)],
-               [(0, 0), (0, 1), (0, 2), (-1, 0), (-2, 0)],
-               [(0, 0), (1, 0), (-1, 0), (0, -1), (0, -2)],
-               [(0, 0), (1, 0), (2, 0), (0, -1), (-1, -1)]]
+                [(-1, 0), (-2, 0), (0, 0), (1, 0), (2, 0)],
+                [(-1, 0), (-2, 0), (0, 0), (1, 0), (2, 0)],
+                [(0, -1), (-1, -1), (-1, 0), (0, 0), (0, 1)],
+                [(0, -1), (-1, -1), (-1, 0), (0, 0), (-1, 1)],
+                [(-1, 0), (-1, 1), (0, 0), (0, -1), (-2, 1)],
+                [(0, 0), (0, -1), (0, 1), (-1, -1), (0, 2)],
+                [(0, 0), (0, -1), (0, 1), (1, -1), (0, 2)],
+                [(0, 0), (0, -1), (0, 1), (1, -1), (0, -2)],
+                [(0, 0), (0, -1), (0, 1), (-1, 0), (1, 1)],
+                [(0, 0), (0, -1), (1, -1), (0, 1), (1, 1)],
+                [(0, 0), (0, 1), (0, 2), (-1, 0), (-2, 0)],
+                [(0, 0), (1, 0), (-1, 0), (0, -1), (0, -2)],
+                [(0, 0), (1, 0), (2, 0), (0, -1), (-1, -1)]]
 
 figures_pos2 = [[(0, 0), (-1, 0), (-2, 0), (1, 0), (2, 0), (3, 0)],
-               [(0, 0), (-1, 0), (-2, 0), (1, 0), (2, 0), (3, 0)],
-               [(0, 0), (-1, 0), (-2, 0), (1, 0), (2, 0), (3, 0)],
-               [(0, 0), (-1, -1), (-1, 0), (0, -1), (0, 1), (0, 2)],
-               [(0, 0), (-1, 0), (0, 1), (-1, -1), (-2, -1), (1, 1)],
-               [(0, 0), (0, -1), (0, 1), (1, -1), (0, 2), (0, 3)],
-               [(0, 0), (0, -1), (0, 1), (-1, -1), (0, 2), (0, 3)],
-               [(0, 0), (1, 0), (0, 1), (-1, 0), (-2, 0), (-3, 0)],
-               [(0, 0), (1, 0), (2, 0), (0, 1), (-1, 0), (-2, 0)],
-               [(0, 0), (1, 0), (1, 1), (2, 1), (-1, 0), (-2, 0)],
-               [(0, 0), (1, 0), (1, 1), (-1, 0), (-1, 1), (-2, 0)],
-               [(0, 0), (1, 0), (1, 1), (-1, 0), (-2, 0), (-2, 1)],
-               [(0, 0), (1, 0), (0, 1), (-1, 0), (-1, 1), (-2, 0)],
-               [(0, 0), (0, 1), (0, 2), (-1, 0), (-2, 0), (-3, 0)],
-               [(0, 0), (1, 0), (0, 1), (0, 2), (-1, 0), (-2, 0)],
-               [(0, 0), (0, -1), (0, 1), (-1, 0), (-2, 0), (-3, 0)],
-               [(0, 0), (0, -1), (1, 0), (1, 1), (-1, 0), (-2, 0)],
-               [(0, 0), (1, 0), (1, 1), (-1, 0), (-1, -1), (-2, 0)],
-               [(0, 0), (1, 0), (1, 1), (-1, 0), (-2, 0), (-1, -1)],
-               [(0, 0), (1, 0), (0, 1), (-1, 0), (-1, -1), (-2, 0)],
-               [(0, 0), (1, 0), (0, -1), (0, 1), (-1, 0), (-2, 0)],
-               [(0, 0), (0, 1), (1, 1), (0, 2), (-1, 0), (-2, 0)],
-               [(0, 0), (0, 1), (1, 1), (-1, 0), (-2, 0), (-2, 1)],
-               [(0, 0), (0, 1), (1, 1), (2, 1), (-1, 0), (-2, 0)],
-               [(0, 0), (0, 1), (1, 1), (-1, 0), (-1, 1), (-2, 0)],
-               [(0, 0), (1, 0), (1, 1), (0, 1), (-1, 0), (-1, 1)],
-               [(0, 0), (0, -1), (0, 1), (1, 1), (-1, 0), (-2, 0)],
-               [(0, 0), (0, -1), (0, 1), (-1, 0), (-1, 1), (-2, 0)],
-               [(0, 0), (0, 1), (1, 1), (-1, 0), (-1, -1), (-2, 0)],
-               [(0, 0), (0, 1), (0, 2), (1, 1), (-1, 0), (-2, 0)],
-               [(0, 0), (0, 1), (1, 1), (1, 2), (-1, 0), (-2, 0)],
-               [(0, 0), (0, 1), (0, 2), (-1, 2), (-1, 0), (-2, 0)],
-               [(0, 0), (1, 0), (0, 1), (0, 2), (1, 2), (-1, 0)],
-               [(0, 0), (0, 1), (1, 1), (0, -1), (1, -1), (-1, 0)],
-               [(0, 0), (1, 0), (1, 1), (-1, 0), (-1, -1), (-2, -1)],
-               [(0, 0), (0, 1), (0, 2), (1, 0), (2, 0), (1, 1)],
-               [(0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2)],
-               [(0, 0), (0, 1), (0, 2), (1, 2), (-1, 0), (-1, 1)],
-               [(0, 0), (0, 1), (1, 1), (-1, 0), (-1, -1), (-2, -1)]]
+                [(0, 0), (-1, 0), (-2, 0), (1, 0), (2, 0), (3, 0)],
+                [(0, 0), (-1, 0), (-2, 0), (1, 0), (2, 0), (3, 0)],
+                [(0, 0), (-1, -1), (-1, 0), (0, -1), (0, 1), (0, 2)],
+                [(0, 0), (-1, 0), (0, 1), (-1, -1), (-2, -1), (1, 1)],
+                [(0, 0), (0, -1), (0, 1), (1, -1), (0, 2), (0, 3)],
+                [(0, 0), (0, -1), (0, 1), (-1, -1), (0, 2), (0, 3)],
+                [(0, 0), (1, 0), (0, 1), (-1, 0), (-2, 0), (-3, 0)],
+                [(0, 0), (1, 0), (2, 0), (0, 1), (-1, 0), (-2, 0)],
+                [(0, 0), (1, 0), (1, 1), (2, 1), (-1, 0), (-2, 0)],
+                [(0, 0), (1, 0), (1, 1), (-1, 0), (-1, 1), (-2, 0)],
+                [(0, 0), (1, 0), (1, 1), (-1, 0), (-2, 0), (-2, 1)],
+                [(0, 0), (1, 0), (0, 1), (-1, 0), (-1, 1), (-2, 0)],
+                [(0, 0), (0, 1), (0, 2), (-1, 0), (-2, 0), (-3, 0)],
+                [(0, 0), (1, 0), (0, 1), (0, 2), (-1, 0), (-2, 0)],
+                [(0, 0), (0, -1), (0, 1), (-1, 0), (-2, 0), (-3, 0)],
+                [(0, 0), (0, -1), (1, 0), (1, 1), (-1, 0), (-2, 0)],
+                [(0, 0), (1, 0), (1, 1), (-1, 0), (-1, -1), (-2, 0)],
+                [(0, 0), (1, 0), (1, 1), (-1, 0), (-2, 0), (-1, -1)],
+                [(0, 0), (1, 0), (0, 1), (-1, 0), (-1, -1), (-2, 0)],
+                [(0, 0), (1, 0), (0, -1), (0, 1), (-1, 0), (-2, 0)],
+                [(0, 0), (0, 1), (1, 1), (0, 2), (-1, 0), (-2, 0)],
+                [(0, 0), (0, 1), (1, 1), (-1, 0), (-2, 0), (-2, 1)],
+                [(0, 0), (0, 1), (1, 1), (2, 1), (-1, 0), (-2, 0)],
+                [(0, 0), (0, 1), (1, 1), (-1, 0), (-1, 1), (-2, 0)],
+                [(0, 0), (1, 0), (1, 1), (0, 1), (-1, 0), (-1, 1)],
+                [(0, 0), (0, -1), (0, 1), (1, 1), (-1, 0), (-2, 0)],
+                [(0, 0), (0, -1), (0, 1), (-1, 0), (-1, 1), (-2, 0)],
+                [(0, 0), (0, 1), (1, 1), (-1, 0), (-1, -1), (-2, 0)],
+                [(0, 0), (0, 1), (0, 2), (1, 1), (-1, 0), (-2, 0)],
+                [(0, 0), (0, 1), (1, 1), (1, 2), (-1, 0), (-2, 0)],
+                [(0, 0), (0, 1), (0, 2), (-1, 2), (-1, 0), (-2, 0)],
+                [(0, 0), (1, 0), (0, 1), (0, 2), (1, 2), (-1, 0)],
+                [(0, 0), (0, 1), (1, 1), (0, -1), (1, -1), (-1, 0)],
+                [(0, 0), (1, 0), (1, 1), (-1, 0), (-1, -1), (-2, -1)],
+                [(0, 0), (0, 1), (0, 2), (1, 0), (2, 0), (1, 1)],
+                [(0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2)],
+                [(0, 0), (0, 1), (0, 2), (1, 2), (-1, 0), (-1, 1)],
+                [(0, 0), (0, 1), (1, 1), (-1, 0), (-1, -1), (-2, -1)]]
 
 def levell(num):
     global fig, fig2, figure, number_level, figures, score
     if num == 1:
         number_level = 4
-        level = {4:figures_pos,5:figures_pos1,6:figures_pos2}
-        figures = [[[x + W // 2, y + 1, 1, 1] for x, y in fig_pos]for fig_pos in level[number_level]]
+        level = {4: figures_pos, 5: figures_pos1, 6: figures_pos2}
+        figures = [[[x + W // 2, y + 1, 1, 1] for x, y in fig_pos]
+                   for fig_pos in level[number_level]]
         x()
         for id_fig in fig:
             game_sc.delete(id_fig)
@@ -140,9 +141,9 @@ def levell(num):
         game()
     if num == 2:
         number_level = 5
-        level = {4:figures_pos,5:figures_pos1,6:figures_pos2}
+        level = {4: figures_pos, 5: figures_pos1, 6: figures_pos2}
         figures = [[[x + W // 2, y + 1, 1, 1] for x, y in fig_pos]
-                for fig_pos in level[number_level]]
+                   for fig_pos in level[number_level]]
         x()
         for id_fig in fig:
             game_sc.delete(id_fig)
@@ -152,9 +153,9 @@ def levell(num):
         game()
     if num == 3:
         number_level = 6
-        level = {4:figures_pos,5:figures_pos1,6:figures_pos2}
+        level = {4: figures_pos, 5: figures_pos1, 6: figures_pos2}
         figures = [[[x + W // 2, y + 1, 1, 1] for x, y in fig_pos]
-                for fig_pos in level[number_level]]
+                   for fig_pos in level[number_level]]
         x()
         for id_fig in fig:
             game_sc.delete(id_fig)
@@ -162,13 +163,14 @@ def levell(num):
             sc.delete(id_fig)
         score = 0
         game()
-    
+
 def x():
     global figures, field, figure, next_figure
     field = [[0 for i in range(W)] for j in range(H)]
     figure, next_figure = deepcopy(choice(figures)), deepcopy(choice(figures))
 
 def get_color(): return (randrange(0, 100), randrange(0, 100), randrange(0, 100))
+
 color, next_color = get_color(), get_color()
 score, lines = 0, 0
 record = '0'
@@ -196,27 +198,33 @@ def speed(num):
         V = 300
         game()
 
-button_player = Button(sc, text = 'Просто', command = lambda: levell(1), font = ('WiGuru 2', 11), bd = 8, bg = 'green', activebackground = 'white', foreground = 'white')
+button_player = Button(sc, text='Просто', command=lambda: levell(1), font=(
+    'WiGuru 2', 11), bd=8, bg='green', activebackground='white', foreground='white')
 button_player.pack()
 button_player.place(relx=0.68, rely=0.35, anchor=CENTER)
 
-button_player1 = Button(sc, text = 'Средне', command = lambda: levell(2), font = ('WiGuru 2', 11), bd = 8, bg = 'yellow', activebackground = 'white')
+button_player1 = Button(sc, text='Средне', command=lambda: levell(
+    2), font=('WiGuru 2', 11), bd=8, bg='yellow', activebackground='white')
 button_player1.pack()
 button_player1.place(relx=0.68, rely=0.45, anchor=CENTER)
 
-button_player2 = Button(sc, text = 'Сложно', command = lambda: levell(3), font = ('WiGuru 2', 11), bd = 8, bg = 'red', activebackground = 'white', foreground = 'white')
+button_player2 = Button(sc, text='Сложно', command=lambda: levell(3), font=(
+    'WiGuru 2', 11), bd=8, bg='red', activebackground='white', foreground='white')
 button_player2.pack()
 button_player2.place(relx=0.68, rely=0.55, anchor=CENTER)
 
-button_speed = Button(sc, text = 'скорость x1', command = lambda: speed(1), font = ('WiGuru 2', 11), bd = 8, bg = 'green', activebackground = 'white', foreground = 'white')
+button_speed = Button(sc, text='скорость x1', command=lambda: speed(1), font=(
+    'WiGuru 2', 11), bd=8, bg='green', activebackground='white', foreground='white')
 button_speed.pack()
 button_speed.place(relx=0.88, rely=0.35, anchor=CENTER)
 
-button_speed1 = Button(sc, text = 'скорость x2', command = lambda: speed(2), font = ('WiGuru 2', 11), bd = 8, bg = 'yellow', activebackground = 'white')
+button_speed1 = Button(sc, text='скорость x2', command=lambda: speed(
+    2), font=('WiGuru 2', 11), bd=8, bg='yellow', activebackground='white')
 button_speed1.pack()
 button_speed1.place(relx=0.88, rely=0.45, anchor=CENTER)
 
-button_speed2 = Button(sc, text = 'скорость x3', command = lambda: speed(3), font = ('WiGuru 2', 11), bd = 8, bg = 'red', activebackground = 'white', foreground = 'white')
+button_speed2 = Button(sc, text='скорость x3', command=lambda: speed(3), font=(
+    'WiGuru 2', 11), bd=8, bg='red', activebackground='white', foreground='white')
 button_speed2.pack()
 button_speed2.place(relx=0.88, rely=0.55, anchor=CENTER)
 
@@ -236,13 +244,14 @@ def move_obj(event):
         dx = -1
     elif event.keysym == 'Right':
         dx = 1
+
 game_sc.bind_all("<KeyPress-Up>", move_obj)
 game_sc.bind_all("<KeyPress-Down>", move_obj)
 game_sc.bind_all("<KeyPress-Left>", move_obj)
 game_sc.bind_all("<KeyPress-Right>", move_obj)
 
 def game():
-    global figure,rotate, dx, number_level, app_running, record, next_figure, anim_count, anim_speed, anim_limit
+    global figure, rotate, dx, number_level, app_running, record, next_figure, anim_count, anim_speed, anim_limit
     global score, lines, field, figures, scores, record, _score, _record, color, next_color, get_color
     dx, rotate = 0, False
     def check_borders():
@@ -302,21 +311,19 @@ def game():
                     lines += 1
             # вычислить счет
             score += scores[lines]
-            
             # нарисовать фигуру
             for i in range(number_level):
                 figure_rect_x = figure[i][0] * TILE
                 figure_rect_y = figure[i][1] * TILE
                 fig.append(game_sc.create_rectangle(figure_rect_x, figure_rect_y,
-                        figure_rect_x+TILE, figure_rect_y+TILE, fill=rgb_to_hex(color)))
+                                                    figure_rect_x+TILE, figure_rect_y+TILE, fill=rgb_to_hex(color)))
             # поле для рисования
             for y, raw in enumerate(field):
                 for x, col in enumerate(raw):
                     if col:
                         figure_rect_x, figure_rect_y = x * TILE, y * TILE
                         fig.append(game_sc.create_rectangle(figure_rect_x, figure_rect_y,
-                                figure_rect_x+TILE, figure_rect_y+TILE, fill=rgb_to_hex(col)))
-            
+                                                            figure_rect_x+TILE, figure_rect_y+TILE, fill=rgb_to_hex(col)))
             # нарисовать следующую_фигуру
             for i in range(number_level):
                 figure_rect_x = next_figure[i][0] * TILE + 290
@@ -334,8 +341,9 @@ def game():
                     anim_count, anim_speed, anim_limit = 0, 100, V
                     score = 0
                     for item in grid:
-                        game_sc.itemconfigure(item, fill=rgb_to_hex(get_color()))
-                        time.sleep(0.005)
+                        game_sc.itemconfigure(
+                            item, fill=rgb_to_hex(get_color()))
+                        time.sleep(0.0001)
                         tk.update_idletasks()
                         tk.update()
                     for item in grid:
