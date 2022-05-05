@@ -235,7 +235,7 @@ scores = {0: 0, 1: 100, 2: 300, 3: 700, 4: 1500, 5: 3500, 6: 9000}
 anim_count, anim_speed, anim_limit = 0, 100, V
 
 def move_obj(event):
-    global rotate, anim_limit, dx
+    global rotate, anim_limit, dx, app_running
     if event.keysym == 'Up':
         rotate = True
     elif event.keysym == 'Down':
@@ -244,11 +244,17 @@ def move_obj(event):
         dx = -1
     elif event.keysym == 'Right':
         dx = 1
+    elif event.keysym == 'space':
+        if app_running:
+            app_running = False
+        else:
+            app_running = True
 
 game_sc.bind_all("<KeyPress-Up>", move_obj)
 game_sc.bind_all("<KeyPress-Down>", move_obj)
 game_sc.bind_all("<KeyPress-Left>", move_obj)
 game_sc.bind_all("<KeyPress-Right>", move_obj)
+game_sc.bind_all("<KeyPress-space>", move_obj)
 
 def game():
     global figure, rotate, dx, number_level, app_running, record, next_figure, anim_count, anim_speed, anim_limit

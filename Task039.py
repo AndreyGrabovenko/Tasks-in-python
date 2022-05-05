@@ -2,153 +2,203 @@
 # Создайте такую игру для игры человек против человека
 # Добавьте игру против бота
 # Подумайте как наделить бота "интеллектом"
-
-from logging import root
-from math import remainder
 from tkinter import *
-from candy_game import *
 from tkinter import messagebox
-from PIL import Image, ImageTk
 
+temp = 0
+root = Tk()
 
+def on_closing():
+    global root
+    if messagebox.askokcancel("Выйти из приложения", "Хотите выйти из приложения?"):
+        root.destroy()
 
-CHECK_PLAYER1 = 0
-CHECK_PLAYER2 = 0
-SCORE = 1000
-amount4 = 0
-class candy(Tk):
-    def __init__(self):
-        super().__init__()
-        WINDOW_WIDTH = 1280
-        WINDOW_HEIGHT = 720
-        def on_closing():
-            if messagebox.askokcancel("Выйти из приложения", "Хотите выйти из приложения?"):
-                self.destroy()
-        
-        self.protocol("WM_DELETE_WINDOW", on_closing)
-        self.title('Игра в конфетки)')
-        self.resizable(False, False)
-        canvas = Canvas(self, width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
-        canvas.pack()
-        self.iconphoto(True, PhotoImage(file=('candy_game\iconka.png')))
-        
-        
-        our_image = Image.open('candy_game\landscape-games1.png')
-        our_image = ImageTk.PhotoImage(our_image)
-        our_label = Label(image = our_image)
-        our_label.image = our_image
-        our_label.place(x = 0, y = 0)
-        
-        our_image1 = Image.open('candy_game\phon.jpg')
-        our_image1 = our_image1.resize((300,300), Image.ANTIALIAS)
-        our_image1 = ImageTk.PhotoImage(our_image1)
-        our_label1 = Label(image = our_image1)
-        our_label1.image = our_image1
-        our_label1.place(x = 100, y = 350)
-        
-        our_image2 = Image.open('candy_game\phon1.jpg')
-        our_image2 = our_image2.resize((300,300), Image.ANTIALIAS)
-        our_image2 = ImageTk.PhotoImage(our_image2)
-        our_label2 = Label(image = our_image2)
-        our_label2.image = our_image2
-        our_label2.place(x = 870, y = 350)
-        def test():
-            global SCORE, CHECK_PLAYER1, CHECK_PLAYER2, amount4
-            label_score = Label(self, text='Конфет осталось: {}'.format(SCORE), font = ('Arial', 20))
-            label_score.pack()
-            label_score.place(relx=0.5, rely=0.3, anchor=CENTER)
+def update():
+    global root,temp
+    temp +=1
+    root.destroy()
+    game()
 
-            label_player1 = Label(self, text = 'Игрок 1', font = ('Times', 40))
-            label_player1.pack()
-            label_player1.place(relx=0.2, rely=0.43, anchor=CENTER)
-            
-            label_player2 = Label(self, text = 'Игрок 2', font = ('Times', 40))
-            label_player2.pack()
-            label_player2.place(relx=0.8, rely=0.43, anchor=CENTER)
-            
-            check_player1 = Label(self, text='Конфет забрано: {}'.format(CHECK_PLAYER1), font = ('Arial', 20))
-            check_player1.pack()
-            check_player1.place(relx=0.2, rely=0.1, anchor=CENTER)
-            
-            
-            check_player3 = Label(self, text='Сколько забрать конфет? ', font = ('Arial', 15))
-            check_player3.pack()
-            check_player3.place(relx=0.8, rely=0.25, anchor=CENTER)
-            
-            # def www():
-            #     nonlocal label_score
-            #     label_score.destroy()
-            #     label_score = Label(self, text='Конфет осталось: {}'.format(o()), font = ('Arial', 20))
-            #     label_score.pack()
-            #     label_score.place(relx=0.5, rely=0.3, anchor=CENTER)
-            amount1 = Entry(width = 5, font =('Arial', 20))
-            amount1.pack()
-            amount1.place(relx=0.2, rely=0.3, anchor=CENTER)
-            # button_player1 = Button(self, text = 'Забрать?', command = result, font = ('Arial', 15))
-            # button_player1.pack()
-            # button_player1.place(relx=0.2, rely=0.3, anchor=CENTER)
-            
-            check_player2 = Label(self, text='Конфет забрано: {}'.format(CHECK_PLAYER2), font = ('Arial', 20))
-            check_player2.pack()
-            check_player2.place(relx=0.8, rely=0.1, anchor=CENTER)
-            amount2 = Entry(width = 5, font =('Arial', 20))
-            amount2.pack()
-            amount2.place(relx=0.8, rely=0.3, anchor=CENTER)
-            amount4 = amount2.get()
-            button_player2 = Button(self, text = 'Забрать?', command = result, font = ('Arial', 15))
-            button_player2.pack()
-            button_player2.place(relx=0.8, rely=0.356, anchor=CENTER)
-        test()
-def result():
-    winner()
-    global SCORE, CHECK_PLAYER1, CHECK_PLAYER2, amount4
-    while True:
-        try:
-            temp =int(amount4)
-        except ValueError:
-            mb.showinfo('число введено не верно!')
-            amount2 = Entry(width = 5, font =('Arial', 20))
-            amount2.pack()
-            amount2.place(relx=0.8, rely=0.3, anchor=CENTER)
-            amount4 = amount2.get()
+def game():
+    global temp, root
+    if temp > 0:
+        root = Tk()
+    CHECK_PLAYER1 = 0
+    CHECK_PLAYER2 = 0
+    CHECK_PLAYER3 = 0
+    SCORE = 250
+    WINDOW_WIDTH = 1280
+    WINDOW_HEIGHT = 720
+    count1, count2, count3 = 1, 1, 0
+    temp1, temp2, temp3 = 0, 0, 0
+    
+    root.protocol("WM_DELETE_WINDOW", on_closing)
+    root.title('Игра в конфетки)')
+    root.resizable(False, False)
+    root.resizable(0, 0)
+    root.wm_attributes("-topmost", 1)
+    sw = root.winfo_screenwidth()
+    sh = root.winfo_screenheight()
+    x = (sw - WINDOW_WIDTH) / 2
+    y = (sh - WINDOW_HEIGHT) / 2
+    root.geometry('%dx%d+%d+%d' % (WINDOW_WIDTH, WINDOW_HEIGHT, x, y))
+    
+    cs = Canvas(root, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg="red", highlightthickness=0)
+    cs.pack()
+    root.iconphoto(True, PhotoImage(file=('candy_game\iconka.png')))
+    
+    obj_img = PhotoImage(file=('candy_game\landscape-games1.png'))
+    cs.create_image(0,0, anchor=NW, image = obj_img)
+    
+    obj_img_player1 = PhotoImage(file=('candy_game\phon.png'))
+    cs.create_image(100,400, anchor=NW, image = obj_img_player1)
+    
+    obj_img_player2 = PhotoImage(file=('candy_game\phon1.png'))
+    cs.create_image(935,400, anchor=NW, image = obj_img_player2)
+    
+    _score = cs.create_text(480, 300, text='Конфет осталось: {}'.format(SCORE), font=("WiGuru 2", 20), fill="red", anchor=NW)
+    cs.create_text(170, 356, text='Игрок 1', font=("WiGuru 2", 24), fill="red", anchor=NW)
+    _taken_away1 = cs.create_text(100, 50, text='Конфет забрано: {}'.format(CHECK_PLAYER1), font=("WiGuru 2", 20), fill="red", anchor=NW)
+    cs.create_text(60, 180, text='Сколько забрать конфет?', font=("WiGuru 2", 20), fill="red", anchor=NW)
+    
+    _player2 = cs.create_text(1005, 356, text='Игрок 2', font=("WiGuru 2", 24), fill="red", anchor=NW)
+    _taken_away2 = cs.create_text(935, 50, text='Конфет забрано: {}'.format(CHECK_PLAYER2), font=("WiGuru 2", 20), fill="red", anchor=NW)
+    cs.create_text(895, 180, text='Сколько забрать конфет?', font=("WiGuru 2", 20), fill="red", anchor=NW)
+    
+    def player1_minus():
+        nonlocal count1
+        if count1 > 1:
+            count1 -= 1
+            label_player1["text"] = count1
+            if count1 == 1 or count1 < 1:
+                button_player1["state"] = root.DISABLED
+    def player2_minus():
+        nonlocal count2
+        if count2 > 1:
+            count2 -= 1
+            label_player2["text"] = count2
+            if count2 == 1 or count2 < 1:
+                button_player2["state"] = root.DISABLED
+    def player1_plus():
+        nonlocal count1
+        if count1 < 28:
+            count1 += 1
+            label_player1["text"] = count1
+            if count1 == 1 or count1 < 1:
+                button_player1_1["state"] = root.DISABLED
+    def player2_plus():
+        nonlocal count2
+        if count2 < 28:
+            count2 += 1
+            label_player2["text"] = count2
         else:
-            break
-    if temp <= 28:
-        if SCORE - temp != 0:
-            SCORE -= temp
+            button_player2_2["state"] = root.DISABLED
+    def take1():
+        nonlocal count1, SCORE, CHECK_PLAYER1, temp1, temp2, temp3, computer
+        if SCORE == 0:
+            button_player1_3["state"] = root.DISABLED
+        elif temp1 < 1:
+            if SCORE - count1 > 0:
+                SCORE -= count1
+                CHECK_PLAYER1 += count1
+                cs.itemconfigure(_score, text='Конфет осталось: {}'.format(SCORE))
+                cs.itemconfigure(_taken_away1, text='Конфет забрано: {}'.format(CHECK_PLAYER1))
+                temp1 += 1
+                temp2 = 0
+                temp3 = 0
+            else:
+                while SCORE - count1 < 0:
+                    count1 -=1
+                SCORE -= count1
+                CHECK_PLAYER1 += count1
+                cs.itemconfigure(_score, text='Конфет осталось: {}'.format(SCORE))
+                cs.itemconfigure(_taken_away1, text='Конфет забрано: {}'.format(CHECK_PLAYER1))
+                cs.create_text(300, 80, text='Победил игрок 1!!!', font=("WiGuru 2", 60), fill="red", anchor=NW)
+                button_player_update = Button(root, text = 'Обновить?', font = ("WiGuru 2", 40), bg='red', command= update)
+                button_player_update.place(x= 470, y= 220)
+            if count3 > 0:
+                computer()
         else:
-            while True:
-                try:
-                    mb.showinfo('Это слишком много!')
-                    amount2 = Entry(width = 5, font =('Arial', 20))
-                    amount2.pack()
-                    amount2.place(relx=0.8, rely=0.3, anchor=CENTER)
-                    amount4 = amount2.get()
-                    temp =int(amount4)
-                except ValueError:
-                    mb.showinfo('число введено не верно!')
-                    amount2 = Entry(width = 5, font =('Arial', 20))
-                    amount2.pack()
-                    amount2.place(relx=0.8, rely=0.3, anchor=CENTER)
-                    amount4 = amount2.get()
-                else:
-                    break
-def winner():
-    global SCORE, CHECK_PLAYER1, CHECK_PLAYER2, amount4
-    if SCORE == 0:
-        if CHECK_PLAYER1 < CHECK_PLAYER2:
-            mb.showinfo('ПОБЕДИЛ ИГРОК 2! \n И ЗАБРАЛ КОНФЕТ: ' + str(CHECK_PLAYER2))
+            button_player1_3["state"] = root.DISABLED
+        if count3 > 0:
+            computer()
+    def take2():
+        nonlocal count2, SCORE, CHECK_PLAYER2, temp1, temp2
+        if SCORE == 0:
+            button_player2_3["state"] = root.DISABLED
+        elif temp2 < 1:
+            if SCORE - count2 >= 0:
+                SCORE -= count2
+                CHECK_PLAYER2 += count2
+                cs.itemconfigure(_score, text='Конфет осталось: {}'.format(SCORE))
+                cs.itemconfigure(_taken_away2, text='Конфет забрано: {}'.format(CHECK_PLAYER2))
+                # button_player1_3["state"] = root.DISABLED
+                temp2 += 1
+                temp1 = 0
+            else:
+                while SCORE - count2 < 0:
+                    count2 -=1
+                SCORE -= count2
+                CHECK_PLAYER2 += count2
+                cs.itemconfigure(_score, text='Конфет осталось: {}'.format(SCORE))
+                cs.itemconfigure(_taken_away2, text='Конфет забрано: {}'.format(CHECK_PLAYER2))
+                cs.create_text(300, 80, text='Победил игрок 2!!!', font=("WiGuru 2", 60), fill="red", anchor=NW)
+                button_player_update = Button(root, text = 'Обновить?', font = ("WiGuru 2", 40), bg='red', command= update)
+                button_player_update.place(x= 470, y= 220)
         else:
-            mb.showinfo('ПОБЕДИЛ ИГРОК 1! \n И ЗАБРАЛ КОНФЕТ: ' + str(CHECK_PLAYER1))
-        SCORE = 1000
-        CHECK_PLAYER1 = 0
-        CHECK_PLAYER2 = 0
-def f():
-    global g
-    g = Choice()
-def main():
-    apllication = candy()
-    apllication.mainloop()
-
-if __name__ == '__main__':
-    main()
+            button_player2_3["state"] = root.DISABLED
+    def computer():
+        nonlocal count3, SCORE, CHECK_PLAYER3, temp1, temp3
+        cs.delete(_player2)
+        cs.create_text(980, 356, text="Компьютер", font=("WiGuru 2", 24), fill="red", anchor=NW)
+        button_player2_3.place_forget()
+        button_player2_2.place_forget()
+        button_player2.place_forget()
+        button_player.place_forget()
+        if temp3 < 1:
+            if SCORE > 29:
+                count3 = SCORE % 29
+                if count3 == 0:
+                    count3 +=1
+                SCORE -= count3
+                CHECK_PLAYER3 += count3
+                label_player2["text"] = count3
+                cs.itemconfigure(_score, text='Конфет осталось: {}'.format(SCORE))
+                cs.itemconfigure(_taken_away2, text='Конфет забрано: {}'.format(CHECK_PLAYER3))
+                temp3 += 1
+                temp1 = 0
+                count3 = 1
+            else:
+                while not SCORE == count3:
+                    count3 +=1
+                SCORE -= count3
+                CHECK_PLAYER3 += count3
+                cs.itemconfigure(_score, text='Конфет осталось: {}'.format(SCORE))
+                cs.itemconfigure(_taken_away2, text='Конфет забрано: {}'.format(CHECK_PLAYER3))
+                cs.create_text(180, 80, text='Победил компьютер!!!', font=("WiGuru 2", 60), fill="red", anchor=NW)
+                button_player_update = Button(root, text = 'Обновить?', font = ("WiGuru 2", 40), bg='red', command= update)
+                button_player_update.place(x= 470, y= 220)
+                temp3 += 1
+    
+    button_player1 = Button(root, text = '-', font = ("WiGuru 2", 18), state = NORMAL, command= player1_minus)
+    button_player1.place(x= 171, y= 230)
+    label_player1 = Label(cs, width = 2, font =("WiGuru 2", 29), text = count1)
+    label_player1.place(x=204, y=230)
+    button_player1_1 = Button(root, text = '+', font = ("WiGuru 2", 18), state = NORMAL, command= player1_plus)
+    button_player1_1.place(x= 260, y= 230)
+    button_player1_3 = Button(root, text = 'Забрать', font = ("WiGuru 2", 19), command= take1)
+    button_player1_3.place(x= 171, y= 289)
+    
+    button_player2 = Button(root, text = '-', font = ("WiGuru 2", 18), command= player2_minus)
+    button_player2.place(x= 1006, y= 230)
+    label_player2 = Label(cs, width = 2, font =("WiGuru 2", 29), text = count2)
+    label_player2.place(x=1039, y=230)
+    button_player2_2 = Button(root, text = '+', font = ("WiGuru 2", 18), command= player2_plus)
+    button_player2_2.place(x= 1095, y= 230)
+    button_player2_3 = Button(root, text = 'Забрать', font = ("WiGuru 2", 19), command= take2)
+    button_player2_3.place(x= 1006, y= 289)
+    
+    button_player = Button(root, text = 'Играть с компьютером?', font = ("WiGuru 2", 19), bg='red', command= computer)
+    button_player.place(x= 470, y= 620)
+    root.mainloop()
+game()
