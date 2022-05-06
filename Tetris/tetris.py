@@ -349,7 +349,7 @@ def game():
                     for item in grid:
                         game_sc.itemconfigure(
                             item, fill=rgb_to_hex(get_color()))
-                        time.sleep(0.0001)
+                        time.sleep(0.001)
                         tk.update_idletasks()
                         tk.update()
                     for item in grid:
