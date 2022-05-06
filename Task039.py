@@ -4,6 +4,7 @@
 # Подумайте как наделить бота "интеллектом"
 from tkinter import *
 from tkinter import messagebox
+import random
 
 root = Tk()
 def on_closing():
@@ -173,10 +174,10 @@ while True:
         button_player2.place_forget()
         button_player.place_forget()
         if temp3 < 1:
-            if SCORE > 29:
-                count3 = SCORE % 29
-                if count3 == 0:
-                    count3 +=1
+            if SCORE > 28:
+                count3 = random.randint(1,29)
+                while SCORE - count3 < 0:
+                    count3 -=1
                 SCORE -= count3
                 CHECK_PLAYER3 += count3
                 label_player2["text"] = count3
