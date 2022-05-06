@@ -102,7 +102,7 @@ class my_square:
                 else:
                     num1.clear()
                     num2 = []
-                    num2.append(num[point_index:])
+                    num2.append(num[point_index])
                     num1 = [l for x in num2 for l in x]
                     len_num1 = len(num1)
                     while True:

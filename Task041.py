@@ -3,4 +3,15 @@
 # Пример: 2+2 => 4; 1+2*3 => 7; 1-2*3 => -5; 
 # Добавить возможность использования скобок, меняющих приоритет операций. 
 # Пример: 1+2*3 => 7; (1+2)*3 => 9;
-
+import numexpr as ne
+def main():
+    expression = input('Введите арифметическое выражение: ')
+    while True:
+        try:
+            c = float(ne.evaluate(expression))
+            print(round(c))
+            break
+        except Exception:
+            print('Проверти правельность введённых данных и повторите ввод! ', expression)
+            expression = input('Введите арифметическое выражение: ')
+main()

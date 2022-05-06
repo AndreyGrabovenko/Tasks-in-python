@@ -56,7 +56,7 @@ def check_win(cmb):
 
 def check_line(a1, a2, a3, cmb):
     if a1['text'] == cmb and a2['text'] == cmb and a3['text'] == cmb:
-        a1['background'] = a2['background'] = a3['background'] = 'pink'
+        a1['background'] = a2['background'] = a3['background'] = 'gold'
         global game_run
         game_run = False
 
@@ -108,7 +108,7 @@ for row in range(3):
         line.append(button)
     field.append(line)
 butt.place(x=0, y=45, anchor=NW)
-new_button = Button(root, width=24, text="new game", font = ("WiGuru 2", 20), bg='yellow', command=new_game)
+new_button = Button(root, width=24, text="new game", font = ("WiGuru 2", 20), bg='blue', command=new_game)
 new_button.place(x=0, y=508)
 
 root.mainloop()
