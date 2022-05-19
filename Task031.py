@@ -5,7 +5,6 @@ def main():
     while bool:
         try:
             number = int(num)
-
         except ValueError:
             print('\nВведённая вами число не соотвествует параметрам числа!\n')
             number = input("Введите число: ")
@@ -19,9 +18,15 @@ def Factor(n):
         if n % d == 0:
             Ans.append(d)
             n //= d
-        else:
-            d += 1
+        else: d += 1
     if n > 1:
         Ans.append(n)
-    return print(Ans)
+    return Ans
 main()
+
+# import gmpy2
+
+# def is_prime(num):
+#   return gmpy2.is_prime(num) if num > 0 else False # проверка является ли число простым
+
+# print(is_prime(31))

@@ -4,8 +4,8 @@ from tkinter import messagebox
 from copy import deepcopy
 import time
 
-W, H = 13, 28
-TILE = 25
+W, H = 11, 25
+TILE = 28
 GAME_RES = W * TILE, H * TILE
 RES = 590, 740
 FPS = 60
@@ -126,18 +126,25 @@ figures_pos2 = [[(0, 0), (-1, 0), (-2, 0), (1, 0), (2, 0), (3, 0)],
                 [(0, 0), (0, 1), (1, 1), (-1, 0), (-1, -1), (-2, -1)]]
 
 def levell(num):
-    global fig, fig2, figure, number_level, figures, score
+    global V, grid, record, fig, fig2, figure, number_level, figures, score, field, anim_count, anim_speed, anim_limit
     if num == 1:
         number_level = 4
         level = {4: figures_pos, 5: figures_pos1, 6: figures_pos2}
         figures = [[[x + W // 2, y + 1, 1, 1] for x, y in fig_pos]
                    for fig_pos in level[number_level]]
         x()
+        if score != 0:
+            set_record(record, score)
+        for i in range(W):
+            field = [[0 for i in range(W)] for i in range(H)]
+            score = 0
+            anim_limit = V
+            for item in grid:
+                game_sc.itemconfigure(item, fill="")
         for id_fig in fig:
             game_sc.delete(id_fig)
         for id_fig in fig2:
             sc.delete(id_fig)
-        score = 0
         game()
     if num == 2:
         number_level = 5
@@ -145,11 +152,18 @@ def levell(num):
         figures = [[[x + W // 2, y + 1, 1, 1] for x, y in fig_pos]
                    for fig_pos in level[number_level]]
         x()
+        if score != 0:
+            set_record(record, score)
+        for i in range(W):
+            field = [[0 for i in range(W)] for i in range(H)]
+            score = 0
+            anim_limit = V
+            for item in grid:
+                game_sc.itemconfigure(item, fill="")
         for id_fig in fig:
             game_sc.delete(id_fig)
         for id_fig in fig2:
             sc.delete(id_fig)
-        score = 0
         game()
     if num == 3:
         number_level = 6
@@ -157,11 +171,18 @@ def levell(num):
         figures = [[[x + W // 2, y + 1, 1, 1] for x, y in fig_pos]
                    for fig_pos in level[number_level]]
         x()
+        if score != 0:
+            set_record(record, score)
+        for i in range(W):
+            field = [[0 for i in range(W)] for i in range(H)]
+            score = 0
+            anim_limit = V
+            for item in grid:
+                game_sc.itemconfigure(item, fill="")
         for id_fig in fig:
             game_sc.delete(id_fig)
         for id_fig in fig2:
             sc.delete(id_fig)
-        score = 0
         game()
 
 def x():
@@ -175,7 +196,7 @@ color, next_color = get_color(), get_color()
 score, lines = 0, 0
 record = '0'
 
-sc.create_text(350, 10, text="TETRIS", font=(
+sc.create_text(350, 0, text="TETRIS", font=(
     "WiGuru 2", 50), fill="Gold", anchor=NW)
 sc.create_text(390, 580, text="score:", font=(
     "WiGuru 2", 40), fill="green", anchor=NW)
@@ -332,8 +353,8 @@ def game():
                                                             figure_rect_x+TILE, figure_rect_y+TILE, fill=rgb_to_hex(col)))
             # нарисовать следующую_фигуру
             for i in range(number_level):
-                figure_rect_x = next_figure[i][0] * TILE + 290
-                figure_rect_y = next_figure[i][1] * TILE + 130
+                figure_rect_x = next_figure[i][0] * TILE + 310
+                figure_rect_y = next_figure[i][1] * TILE + 90
                 fig2.append(sc.create_rectangle(figure_rect_x, figure_rect_y,
                             figure_rect_x+TILE, figure_rect_y+TILE, fill=rgb_to_hex(next_color)))
             # рисовать титулы
@@ -344,7 +365,7 @@ def game():
                 if field[0][i]:
                     set_record(record, score)
                     field = [[0 for i in range(W)] for i in range(H)]
-                    anim_count, anim_speed, anim_limit = 0, 100, V
+                    anim_count, anim_speed = 0, 100
                     score = 0
                     for item in grid:
                         game_sc.itemconfigure(
@@ -352,6 +373,7 @@ def game():
                         time.sleep(0.001)
                         tk.update_idletasks()
                         tk.update()
+                    anim_limit = V
                     for item in grid:
                         game_sc.itemconfigure(item, fill="")
             dx, rotate = 0, False

@@ -18,7 +18,7 @@ start_time = time.time()
 print(time.time() - start_time)
 
 
-# @lru_cache()
+@lru_cache()
 def fib(a):
     if a >= 0:
         if a == 0:
@@ -34,7 +34,17 @@ def fib(a):
 
 start_time1 = time.time()
 b = []
-for i in range(-100,101):
+for i in range(10):
     b.append(fib(i))
 print(b)
 print(time.time() - start_time1)
+
+
+# def tribonacci(signature, n):
+#     p = signature
+#     if len(p) < n:
+#         while len(signature) < n:
+#             p.append(p[-1] + p[-2] + p[-3])
+#     else: return p[:n]
+#     return p
+# print(tribonacci([1, 1, 1], 0))

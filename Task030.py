@@ -29,7 +29,7 @@ def chudnovsky2(n):
     pi = pi**(-1)
     return pi
  
-n = 100
+n = 10
 getcontext().prec = n
 print(chudnovsky(n))
 print(chudnovsky2(n))
