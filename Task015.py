@@ -13,9 +13,9 @@ def main():
             num = input("Введите число: ")
         else:
             bool = False
-    lists = [1]
-    for i in range(1, number+1):
-        lists.append(lists[i-1] * (i))
-    del lists[0]
-    print(lists)
+    print(factotial(number))
+
+
+factotial = lambda b: [(lambda a, i: a(a, i))(lambda a, i: i * a(a, i - 1) if i > 0 else 1, i) for i in range(1, b + 1)]
+
 main()

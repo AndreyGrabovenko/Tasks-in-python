@@ -12,12 +12,14 @@ def main():
             print('Повторите ввод целочисленного числа!')
             num = input("Введите число: ")
         else:
-            bool = False
-    lists = []
-    lists1 = []
-    n = dict()
-    for i in range(1, number + 1): lists.append(i)
-    for i in range(1, number + 1): lists1.append(3*i+1)
-    for i in range(number): n[lists[i]] = lists1[i]
-    print(n)
+            if number < 0:
+                print('Число не может быть отрицательмым')
+                num = input("Введите число: ")
+            else:
+                bool = False
+    print(n(number))
+
+
+n = lambda x: {i: 3 * i + 1 for i in range(1, x + 1)}
+
 main()

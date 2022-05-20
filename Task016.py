@@ -11,8 +11,9 @@ def main():
             num = input("Введите число: ")
         else:
             bool = False
-    sum = 0
-    for i in range(1, number+1):
-        sum += (1+1/number)**number
-    print(format(sum, '.3f'))
+    print(suma(number))
+
+
+suma = lambda x: sum([(1+(1/i))**i for i in range(1, x+1)])
+
 main()
